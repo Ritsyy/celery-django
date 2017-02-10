@@ -12,20 +12,18 @@ class ImageModelAdmin(admin.ModelAdmin):
     class Meta:
         model = Image
 
-class AlbumModelAdmin(admin.ModelAdmin):
+class ImageInline(admin.StackedInline):
+    model = Image
+
+class AlbumAdmin(admin.ModelAdmin):
     list_display = ["title", "description"]
     list_display_links =  ["title", "description"] 
     list_filter = ["title", "description"]
     search_fields = ["title", "description"]
+    inlines = [ ImageInline, ]    
     
     class Meta:
         model = Album
 
-class ImageInline(admin.StackedInline):
-    model = Image
-
-class AlbumInline(admin.StackedInline):
-    inlines = [ ImageInline, ]
-
 admin.site.register(Image, ImageModelAdmin)
-admin.site.register(Album, AlbumModelAdmin)
+admin.site.register(Album, AlbumAdmin)

@@ -4,7 +4,7 @@ from django.db import models
 
 # Create your models here.
 def upload_location(instance, filename):
-    return "%s/%s" % (instance.id, filename)
+    return "%s/%s" % ("image", filename)
 
 class Album(models.Model):
     title = models.CharField(max_length=200)
@@ -12,8 +12,12 @@ class Album(models.Model):
     draft = models.BooleanField(default=False)
     publish = models.DateField(auto_now=False, auto_now_add=False)
 
+    def __unicode__(self):
+        return self.title
+
 class Image(models.Model):
-    title = models.ForeignKey("Album")
+    album = models.ForeignKey(Album)
+    title = models.CharField(max_length=200)
     image = models.ImageField(upload_to=upload_location,
             null=True,
             blank=True,
